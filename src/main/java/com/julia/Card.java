@@ -4,10 +4,7 @@ public class Card {
     String taskTitle;
     String taskDescription;
     String color;
-    public enum Priority // how to use in constructor?
-    {
-        HIGHT,MEDIUM,LOW
-    }
+    Priority priority;
 
 
     public Card(String taskTitle, String taskDescription, String color){
