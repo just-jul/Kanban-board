@@ -17,15 +17,19 @@ public class App extends JFrame implements ActionListener {
 
     JPanel headers = new JPanel(new GridLayout(1, 3, 10, 10)); // NORTH for board headers
 
-    JPanel notStartedColumn = new JPanel();
-    JPanel inProgressColumn = new JPanel();
-    JPanel completeColumn = new JPanel();
+//    JPanel notStartedColumn = new JPanel();
+//    JPanel inProgressColumn = new JPanel();
+//    JPanel completeColumn = new JPanel();
+
+    // column classes
+    Column notStartedC = new Column(ColorEnum.VERY_LIGHT_GRAY);
+    Column inProgressC = new Column(ColorEnum.VERY_LIGHT_PURPLE);
+    Column completeC = new Column(ColorEnum.VERY_LIGHT_GREEN);
+
 
     RoundedLabel notStartedLabel = new RoundedLabel("Not Started", 12);
-    RoundedLabel inProgressLabel = new RoundedLabel(    "In Progress", 12);
+    RoundedLabel inProgressLabel = new RoundedLabel("In Progress", 12);
     RoundedLabel completeLabel = new RoundedLabel("Complete", 12);
-
-    JPanel card = new JPanel();
 
     JPanel buttonContainer = new JPanel();
     JPanel buttonPanel = new JPanel();
@@ -46,18 +50,16 @@ public class App extends JFrame implements ActionListener {
         // Card card = new Card("Fix bug", "Null pointer in login", "red", Priority.HIGH);
 
 
-
-
     }
 
-    public App (String title){
+    public App(String title) {
         super(title);
     }
 
 
-    void init(){
+    void init() {
 
-        setSize(1000,700);
+        setSize(1000, 700);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setLayout(new FlowLayout());
@@ -87,34 +89,37 @@ public class App extends JFrame implements ActionListener {
         // label styling
 
         notStartedLabel.setBackground(Color.LIGHT_GRAY);
-        notStartedLabel.setPreferredSize(new Dimension(100,40));
+        notStartedLabel.setPreferredSize(new Dimension(100, 40));
 
         inProgressLabel.setBackground(ColorEnum.LIGHT_PURPLE.toColor());
-        inProgressLabel.setPreferredSize(new Dimension(100,40));
+        inProgressLabel.setPreferredSize(new Dimension(100, 40));
 
         completeLabel.setBackground(ColorEnum.LIGHT_GREEN.toColor());
-        completeLabel.setPreferredSize(new Dimension(100,40));
+        completeLabel.setPreferredSize(new Dimension(100, 40));
 
         // headers
         headers.add(notStartedLabel);
         headers.add(inProgressLabel);
         headers.add(completeLabel);
 
+        // columns
+//        notStartedColumn.setBackground(ColorEnum.VERY_LIGHT_GRAY.toColor());
+//        notStartedColumn.setPreferredSize(new Dimension(100, 500));
+//
+//        inProgressColumn.setBackground(ColorEnum.VERY_LIGHT_PURPLE.toColor());
+//        inProgressColumn.setPreferredSize(new Dimension(100, 500));
+//
+//        completeColumn.setBackground(ColorEnum.VERY_LIGHT_GREEN.toColor());
+//        completeColumn.setPreferredSize(new Dimension(100, 500));
 
-        notStartedColumn.setBackground(ColorEnum.VERY_LIGHT_GRAY.toColor());
-        notStartedColumn.setPreferredSize(new Dimension(100, 500));
 
-        inProgressColumn.setBackground(ColorEnum.VERY_LIGHT_PURPLE.toColor());
-        inProgressColumn.setPreferredSize(new Dimension(100, 500));
+//        boardPanel.add(notStartedColumn);
+//        boardPanel.add(inProgressColumn);
+//        boardPanel.add(completeColumn);
 
-        completeColumn.setBackground(ColorEnum.VERY_LIGHT_GREEN.toColor());
-        completeColumn.setPreferredSize(new Dimension(100, 500));
-
-
-        boardPanel.add(notStartedColumn);
-        boardPanel.add(inProgressColumn);
-        boardPanel.add(completeColumn);
-
+        boardPanel.add(notStartedC);
+        boardPanel.add(inProgressC);
+        boardPanel.add(completeC);
 
 
     }
@@ -123,7 +128,7 @@ public class App extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if(source == addCard){
+        if (source == addCard) {
             deleteCardMessage.setText("");
 
             CustomAddDialog dialog = new CustomAddDialog();
@@ -137,21 +142,26 @@ public class App extends JFrame implements ActionListener {
                     null, null, null
             );
 
-            if(result == JOptionPane.OK_OPTION){
+            if (result == JOptionPane.OK_OPTION) {
                 taskNameInput = dialog.getTaskName();
                 Priority selectedPriority = dialog.getPriority();
 
-                if(!validateInput(taskNameInput) || taskNameInput == null){
+                if (!validateInput(taskNameInput) || taskNameInput == null) {
                     JOptionPane.showMessageDialog(
                             this,                       // parent
                             "Invalid input.",   // message
                             "Add Card",              // title
                             JOptionPane.PLAIN_MESSAGE   // no icon
-                    );            }
-                }else if(source == deleteCard){
-                    deleteCardMessage.setText("Select card to delete.");
+                    );
                 }
+
+                Card card = new Card(taskNameInput, selectedPriority);
+                notStartedC.addCard(card);
             }
+
+        } else if (source == deleteCard) {
+            deleteCardMessage.setText("Select card to delete.");
+        }
 
 //            taskNameInput = (String) JOptionPane.showInputDialog(
 //                    this,                   // parent
@@ -166,7 +176,7 @@ public class App extends JFrame implements ActionListener {
 
     }
 
-    public static boolean validateInput(String input){
+    public static boolean validateInput(String input) {
         return (input.length() >= 3 && input.length() < 25);
     }
 }

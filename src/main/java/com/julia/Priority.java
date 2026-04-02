@@ -5,5 +5,17 @@ import java.awt.*;
 public enum Priority {
     HIGH,
     MEDIUM,
-    LOW,
+    LOW;
+
+    public String getPriorityText(Priority priority){
+        if(priority == HIGH){
+            return "High";
+        }else if(priority == MEDIUM){
+            return "Medium";
+        }else{
+            return "Low";
+        }
+    }
+
+
 }
