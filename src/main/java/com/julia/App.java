@@ -27,16 +27,25 @@ public class App extends JFrame implements ActionListener {
 
     JPanel card = new JPanel();
 
+    JPanel buttonContainer = new JPanel();
     JPanel buttonPanel = new JPanel();
     JButton addCard = new JButton("Add card");
     JButton deleteCard = new JButton("Delete card");
 
+    String taskNameInput = "";
+
+    JLabel deleteCardMessage = new JLabel("");
 
     public static void main(String[] args) throws Exception {
         App window = new App("Kanban board");
         window.init();
 
         window.setVisible(true);
+
+        // how to use Card class
+        // Card card = new Card("Fix bug", "Null pointer in login", "red", Priority.HIGH);
+
+
 
 
     }
@@ -60,10 +69,20 @@ public class App extends JFrame implements ActionListener {
         container.add(scrollPane, BorderLayout.CENTER);
         scrollPane.setBorder(null);
 
-        container.add(buttonPanel, BorderLayout.SOUTH);
+        container.add(buttonContainer, BorderLayout.SOUTH);
 
+        buttonContainer.setLayout(new BorderLayout());
+        buttonContainer.setPreferredSize(new Dimension(300, 60));
+        buttonContainer.add(buttonPanel, BorderLayout.NORTH);
+        buttonContainer.add(deleteCardMessage, BorderLayout.SOUTH);
+        deleteCardMessage.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // buttons
         buttonPanel.add(addCard);
         buttonPanel.add(deleteCard);
+        addCard.addActionListener(this);
+        deleteCard.addActionListener(this);
+
 
         // label styling
 
@@ -102,6 +121,52 @@ public class App extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
 
+        if(source == addCard){
+            deleteCardMessage.setText("");
+
+            CustomAddDialog dialog = new CustomAddDialog();
+
+            int result = JOptionPane.showOptionDialog(
+                    this,
+                    dialog,
+                    "Add Card",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE,
+                    null, null, null
+            );
+
+            if(result == JOptionPane.OK_OPTION){
+                taskNameInput = dialog.getTaskName();
+                Priority selectedPriority = dialog.getPriority();
+
+                if(!validateInput(taskNameInput) || taskNameInput == null){
+                    JOptionPane.showMessageDialog(
+                            this,                       // parent
+                            "Invalid input.",   // message
+                            "Add Card",              // title
+                            JOptionPane.PLAIN_MESSAGE   // no icon
+                    );            }
+                }else if(source == deleteCard){
+                    deleteCardMessage.setText("Select card to delete.");
+                }
+            }
+
+//            taskNameInput = (String) JOptionPane.showInputDialog(
+//                    this,                   // parent
+//                    "Enter task name:",     // message
+//                    "Add Card",             // title
+//                    JOptionPane.PLAIN_MESSAGE, // no icon
+//                    null,                   // no custom icon
+//                    null,                   // no predefined options
+//                    ""                      // initial input value
+//            );
+
+
+    }
+
+    public static boolean validateInput(String input){
+        return (input.length() >= 3 && input.length() < 25);
     }
 }

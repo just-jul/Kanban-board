@@ -7,4 +7,5 @@ public class Column {
     ArrayList<Card> cardList;
 
 
+
 }
