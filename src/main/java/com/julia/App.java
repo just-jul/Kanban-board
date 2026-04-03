@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -40,15 +42,18 @@ public class App extends JFrame implements ActionListener {
 
     JLabel deleteCardMessage = new JLabel("");
 
+    Card selectedCard;
+
+
     public static void main(String[] args) throws Exception {
         App window = new App("Kanban board");
+
         window.init();
 
         window.setVisible(true);
 
         // how to use Card class
         // Card card = new Card("Fix bug", "Null pointer in login", "red", Priority.HIGH);
-
 
     }
 
@@ -65,6 +70,7 @@ public class App extends JFrame implements ActionListener {
         setLayout(new FlowLayout());
 
         add(container);
+
 
         container.setPreferredSize(new Dimension(700, 600));
         container.add(headers, BorderLayout.NORTH);
@@ -155,22 +161,25 @@ public class App extends JFrame implements ActionListener {
                     );
                 }
 
-                Card card = new Card(taskNameInput, selectedPriority);
+                Card card = new Card(taskNameInput, selectedPriority, this);
                 notStartedC.addCard(card);
+
             }
 
         } else if (source == deleteCard) {
-            deleteCardMessage.setText("Select card to delete.");
-
-            Card selectedCard;
-            Column selectedColumn;
-            if(selectedColumn == notStartedC){
-                notStartedC.deleteCard(selectedCard);
-            }else if (selectedColumn == inProgressC){
-                inProgressC.deleteCard(selectedCard);
-            }else{
-                completeC.deleteCard(selectedCard);
+            if(selectedCard == null){
+                deleteCardMessage.setText("Select card to delete.");
             }
+
+
+            Column selectedColumn;
+//            if(selectedColumn == notStartedC){
+//                notStartedC.deleteCard(selectedCard);
+//            }else if (selectedColumn == inProgressC){
+//                inProgressC.deleteCard(selectedCard);
+//            }else{
+//                completeC.deleteCard(selectedCard);
+//            }
 
         }
 
