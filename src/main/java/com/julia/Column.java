@@ -14,14 +14,21 @@ public class Column extends JPanel {
         setBackground(color.toColor());
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setPreferredSize(new Dimension(100, 500));
-
+        setBorder(BorderFactory.createEmptyBorder(20, 6, 20, 6)); // padding around the edges of the column
     }
 
     public void addCard(Card card) {
         cardList.add(card);
         add(card);
+        add(Box.createRigidArea(new Dimension(0, 8))); // 8px gap after each card
         revalidate(); // tells layout manager to recalculate
         repaint(); // redraws the panel
+    }
+    public void deleteCard(Card card){
+        cardList.remove(card);
+    }
+    public ColorEnum getBackgroundColor(){
+        return this.color;
     }
 
 

@@ -18,16 +18,25 @@ public class Card extends JPanel {
         this.priority = priority;
         this.taskTitleLabel = new JLabel(taskTitle);
         this.descriptionLabel = new JLabel(taskDescription);
-        this.priorityLabel = new JLabel(priority.getPriorityText(priority));
+        this.priorityLabel = new JLabel("Priority: " + priority.getPriorityText(priority));
 
         setLayout(new BorderLayout());
+        setBorder(new RoundedBorder(40));
 
         add(taskTitleLabel, BorderLayout.NORTH);
         add(descriptionLabel, BorderLayout.CENTER);
         add(priorityLabel, BorderLayout.SOUTH);
 
-        setPreferredSize(new Dimension(180, 40));
+        setPreferredSize(new Dimension(180, 70));
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 70)); // prevents stretching to full column height
         setBackground(Color.WHITE);
-        setOpaque(true);
+        setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8));
+        setBorder(new RoundedBorder(30));
+
+        setOpaque(false);
+        setBackground(Color.WHITE);
+        setBorder(new RoundedBorder(12));
     }
+
+
 }

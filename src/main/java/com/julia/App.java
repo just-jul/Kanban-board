@@ -161,6 +161,17 @@ public class App extends JFrame implements ActionListener {
 
         } else if (source == deleteCard) {
             deleteCardMessage.setText("Select card to delete.");
+
+            Card selectedCard;
+            Column selectedColumn;
+            if(selectedColumn == notStartedC){
+                notStartedC.deleteCard(selectedCard);
+            }else if (selectedColumn == inProgressC){
+                inProgressC.deleteCard(selectedCard);
+            }else{
+                completeC.deleteCard(selectedCard);
+            }
+
         }
 
 //            taskNameInput = (String) JOptionPane.showInputDialog(
