@@ -167,33 +167,28 @@ public class App extends JFrame implements ActionListener {
             }
 
         } else if (source == deleteCard) {
+            deleteCardMessage.setText("");
             if(selectedCard == null){
                 deleteCardMessage.setText("Select card to delete.");
+                return;
             }
 
+            int result = JOptionPane.showConfirmDialog(this,
+                    "Do you want to delete this task?",
+                    "Delete card",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-            Column selectedColumn;
-//            if(selectedColumn == notStartedC){
-//                notStartedC.deleteCard(selectedCard);
-//            }else if (selectedColumn == inProgressC){
-//                inProgressC.deleteCard(selectedCard);
-//            }else{
-//                completeC.deleteCard(selectedCard);
-//            }
+            if(result == JOptionPane.OK_OPTION){
+                Column selectedColumn = (Column) selectedCard.getParent();
 
+                selectedColumn.deleteCard(selectedCard);
+                selectedCard = null;
+            }
+
+//
         }
 
-//            taskNameInput = (String) JOptionPane.showInputDialog(
-//                    this,                   // parent
-//                    "Enter task name:",     // message
-//                    "Add Card",             // title
-//                    JOptionPane.PLAIN_MESSAGE, // no icon
-//                    null,                   // no custom icon
-//                    null,                   // no predefined options
-//                    ""                      // initial input value
-//            );
-
-
+//
     }
 
     public static boolean validateInput(String input) {

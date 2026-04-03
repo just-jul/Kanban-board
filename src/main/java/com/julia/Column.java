@@ -26,6 +26,9 @@ public class Column extends JPanel {
     }
     public void deleteCard(Card card){
         cardList.remove(card);
+        remove(card);
+        revalidate();
+        repaint();
     }
     public ColorEnum getBackgroundColor(){
         return this.color;
