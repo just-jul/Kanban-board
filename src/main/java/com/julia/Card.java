@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-public class Card extends JPanel implements MouseListener {
+public class Card extends JPanel implements MouseListener, MouseMotionListener {
     private App app;
 
     private String taskTitle;
@@ -16,6 +17,16 @@ public class Card extends JPanel implements MouseListener {
     private Priority priority;
     private JLabel priorityLabel;
     private boolean isSelected;
+
+    private int x;
+    private int y;
+    private int startingX;
+    private int startingY;
+
+    JPanel glassCardPanel;
+    Column startingColumn;
+    Column targetColumn;
+    Point glassPosition;
 
 
 
@@ -79,11 +90,34 @@ public class Card extends JPanel implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        // cards starting position
+        startingX = e.getX();
+        startingY = e.getY();
+
+        // or with Point ?
+        Point startingPos = this.getLocation();
+
+        startingColumn = (Column) this.getParent();
+
+        glassCardPanel = (JPanel) app.getGlassPane();
+        glassPosition = glassCardPanel.convertPoint(this.getParent(), ); // ?
+        glassCardPanel.setVisible(true);
+
+
+
+
 
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        // which column the mouse was released over
+        Column columnAtRelease = (Column) this.getParent();
+        startingColumn.deleteCard(this);
+
+        targetColumn.addCard(this);
+        glassCardPanel.setVisible(false);
+
 
     }
 
@@ -96,4 +130,28 @@ public class Card extends JPanel implements MouseListener {
     public void mouseExited(MouseEvent e) {}
 
 
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        // calculating how much the mouse has moved since mousePressed
+
+        int currentX = e.getX();
+        int currentY = e.getY();
+
+        int Xdistance = startingX - currentX;
+        int Ydistance = startingY - currentY;
+
+        currentX = Xdistance;
+        currentY = Ydistance;
+
+        cardPanel.repaint();
+
+
+
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
 }

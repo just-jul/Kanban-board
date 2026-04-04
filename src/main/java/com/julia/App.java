@@ -71,6 +71,14 @@ public class App extends JFrame implements ActionListener {
 
         add(container);
 
+        this.getContentPane().setBackground(Color.WHITE);
+
+//        container.setBackground(Color.WHITE);
+//        scrollPane.setBackground(Color.WHITE);
+
+        buttonContainer.setBackground(Color.WHITE);
+        buttonPanel.setBackground(Color.WHITE);
+
 
         container.setPreferredSize(new Dimension(700, 600));
         container.add(headers, BorderLayout.NORTH);
@@ -184,8 +192,6 @@ public class App extends JFrame implements ActionListener {
                 selectedColumn.deleteCard(selectedCard);
                 selectedCard = null;
             }
-
-//
         }
 
 //
